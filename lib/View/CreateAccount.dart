@@ -2,7 +2,9 @@ import 'package:crafty_bay/Styles/ButtonStyles.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:crafty_bay/Styles/TextFormStyles.dart';
+import 'package:crafty_bay/View/PinVerificationPage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../Widgets/CustomStatusBar.dart';
 
@@ -92,7 +94,9 @@ class _CreateAccountState extends State<CreateAccount> {
                   height: 40,
                   margin: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
                   child: ElevatedButton(
-                    onPressed: (){},
+                    onPressed: (){
+                      Get.to(const PinVerificationPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                    },
                     child: Text("Complete",style: buttonTextStyles,),
                     style: customButtonStyle,
                   ),

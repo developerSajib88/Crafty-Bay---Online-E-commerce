@@ -30,6 +30,13 @@ TextStyle textStyle4 = GoogleFonts.poppins(
 );
 
 
+TextStyle textStyle6 = GoogleFonts.poppins(
+    color: customBlack,
+    fontSize: 14,
+    fontWeight: FontWeight.w500
+);
+
+
 
 
 TextStyle textStyle5 = GoogleFonts.poppins(

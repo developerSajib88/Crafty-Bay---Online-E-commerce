@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'View/CreateAccount.dart';
+import 'View/ReviewPage.dart';
 import 'View/SplashScreen.dart';
 
 void main(){
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      home: CreateAccount(),
+      home: ReviewPage(),
     );
   }
 }
