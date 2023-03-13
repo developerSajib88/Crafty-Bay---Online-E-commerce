@@ -4,13 +4,16 @@ class Assets {
 
   static const String iconsCallIc = 'assets/icons/call_ic.png';
   static const String iconsCartIc = 'assets/icons/cart_ic.png';
+  static const String iconsFurnitureIc = 'assets/icons/furniture_ic.png';
   static const String iconsHomeIc = 'assets/icons/home_ic.png';
   static const String iconsMenuIc = 'assets/icons/menu_ic.png';
   static const String iconsNotifyIc = 'assets/icons/notify_ic.png';
+  static const String iconsProfileIc = 'assets/icons/profile_ic.png';
   static const String iconsSearchIc = 'assets/icons/search_ic.png';
   static const String iconsUserIc = 'assets/icons/user_ic.png';
   static const String iconsWishIc = 'assets/icons/wish_ic.png';
   static const String imagesLogo = 'assets/images/logo.png';
   static const String imagesProductImg = 'assets/images/product_img.png';
+  static const String imagesSecondLogo = 'assets/images/second_logo.png';
 
 }

@@ -15,6 +15,7 @@ class _ReviewItemViewState extends State<ReviewItemView> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Card(
+        elevation: 2,
         child: Container(
           width: double.infinity,
           height: 115,
@@ -24,15 +25,7 @@ class _ReviewItemViewState extends State<ReviewItemView> {
               children: [
                 Row(
                   children: [
-                    Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        color: customGrey,
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Image.asset("assets/icons/user_ic.png",width: 5,height: 5,color: Colors.white,),
-                    ),
+                    Image.asset("assets/icons/profile_ic.png",width: 24,height: 24,),
 
                     const SizedBox(width: 5.0,),
 
@@ -40,6 +33,8 @@ class _ReviewItemViewState extends State<ReviewItemView> {
 
                   ],
                 ),
+
+                const SizedBox(height: 5,),
 
                 Text("Reference site about Lorem Ipsum, giving information on its origins, as well"
                       "as a random Lipsum generator Reference site about Lorem Ipsum, giving"

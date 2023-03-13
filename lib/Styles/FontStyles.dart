@@ -16,6 +16,12 @@ TextStyle textStyle2 = GoogleFonts.poppins(
   fontSize: 9,
 );
 
+TextStyle textStyle2Topaze = GoogleFonts.poppins(
+  color: customTopaze,
+  fontSize: 9,
+);
+
+
 
 TextStyle textStyle3 = GoogleFonts.poppins(
   color: customGrey,
@@ -64,9 +70,9 @@ TextStyle buttonTextStyles = GoogleFonts.poppins(
 
 // product title text styles
 TextStyle productTitleStyles = GoogleFonts.poppins(
-  color: customGrey,
-  fontSize: 11,
-  fontWeight: FontWeight.bold
+  color: darkGrey,
+  fontSize: 15,
+  fontWeight: FontWeight.w500
 );
 
 
@@ -83,5 +89,20 @@ TextStyle subtitleAndFormTextStyles = GoogleFonts.roboto(
     color: customGrey,
     fontSize: 14,
 );
+
+// SubTitle And Form text styles
+TextStyle cartTitleTextStyles = GoogleFonts.roboto(
+    color: customGrey,
+    fontSize: 15,
+    fontWeight: FontWeight.w500
+);
+
+// Product price Text Style
+TextStyle priceTextStyles = GoogleFonts.poppins(
+  color: customTopaze,
+  fontSize: 8,
+  fontWeight: FontWeight.w800
+);
+
 
 

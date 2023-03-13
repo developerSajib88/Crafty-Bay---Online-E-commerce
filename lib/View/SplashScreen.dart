@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:get/get.dart';
 
-import 'HomePage.dart';
+import 'MainPage/HomePage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

@@ -1,4 +1,4 @@
-import 'package:crafty_bay/View/HomePage.dart';
+import 'package:crafty_bay/View/MainPage/HomePage.dart';
 import 'package:crafty_bay/Widgets/CustomStatusBar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
