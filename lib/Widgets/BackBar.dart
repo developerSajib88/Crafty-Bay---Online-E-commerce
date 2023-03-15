@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../Styles/FontStyles.dart';
@@ -6,8 +9,9 @@ import '../Styles/FontStyles.dart';
 class BackBar extends StatefulWidget {
 
   String backName;
+  VoidCallback onPressed;
 
-  BackBar({Key? key,required this.backName}) : super(key: key);
+  BackBar({Key? key,required this.backName,required this.onPressed}) : super(key: key);
 
 
   @override
@@ -24,9 +28,7 @@ class _BackBarState extends State<BackBar> {
         child: Row(
           children: [
             IconButton(
-                onPressed: (){
-                  Get.back();
-                },
+                onPressed: widget.onPressed,
                 icon: const Icon(Icons.arrow_back_ios_new,)
             ),
 

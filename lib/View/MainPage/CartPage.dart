@@ -1,8 +1,10 @@
+import 'package:crafty_bay/Controller/NavigationController.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:crafty_bay/Widgets/BackBar.dart';
 import 'package:crafty_bay/Widgets/CustomStatusBar.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../Styles/ButtonStyles.dart';
 import '../../Widgets/ItemViewStyles/CartItemView.dart';
@@ -21,7 +23,9 @@ class _CartPageState extends State<CartPage> {
       body: CustomStatusBar(
         child: Column(
           children: [
-            BackBar(backName: "Cart"),
+            BackBar(backName: "Cart", onPressed: () {
+              Get.put(NavigationController()).homeNavigationIndex();
+            },),
             Expanded(
               child: ListView.builder(
                   itemCount: 10,

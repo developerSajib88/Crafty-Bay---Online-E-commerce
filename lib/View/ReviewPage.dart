@@ -1,3 +1,4 @@
+import 'package:crafty_bay/Controller/NavigationController.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:crafty_bay/View/CreateReview.dart';
@@ -25,7 +26,8 @@ class _ReviewPageState extends State<ReviewPage> {
           height: double.infinity,
           child: Column(
             children: [
-              BackBar(backName: "Reviews",),
+              BackBar(backName: "Reviews", onPressed: (){
+              },),
 
 
               Expanded(

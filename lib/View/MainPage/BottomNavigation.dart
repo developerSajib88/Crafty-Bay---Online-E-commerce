@@ -1,3 +1,4 @@
+import 'package:crafty_bay/Controller/CategoryController/CategoryController.dart';
 import 'package:crafty_bay/Controller/NavigationController.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
@@ -17,17 +18,32 @@ class BottomNavigation extends StatefulWidget {
 
 class _BottomNavigationState extends State<BottomNavigation> {
 
+  CategoryController categoryController = Get.put(CategoryController());
   NavigationController navigationController = Get.put(NavigationController());
   List myPage = [const HomePage(),const CategoryPage(),const CartPage(),const WishPage()];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      categoryController.setCategoryList();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
 
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        child: myPage[navigationController.navigationIndex.value],
+      body: GetBuilder<NavigationController>(
+        builder: (_) {
+          return Container(
+            width: double.infinity,
+            height: double.infinity,
+            child: myPage[navigationController.navigationIndex.value],
+          );
+        }
       ),
 
       bottomNavigationBar: Container(
@@ -43,119 +59,123 @@ class _BottomNavigationState extends State<BottomNavigation> {
             )
           ]
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            //Home option
-            InkWell(
-              onTap: (){
-                navigationController.homeNavigationIndex();
-                setState(() {});
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                      "assets/icons/home_ic.png",
-                      width: 24,
-                      height: 24,
-                      color: navigationController.navigationIndex == 0? customTopaze:customGrey,
+        child: GetBuilder<NavigationController>(
+          builder: (_){
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                //Home option
+                InkWell(
+                  onTap: (){
+                    navigationController.homeNavigationIndex();
+                    setState(() {});
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/icons/home_ic.png",
+                        width: 24,
+                        height: 24,
+                        color: navigationController.navigationIndex == 0? customTopaze:customGrey,
+                      ),
+
+                      const SizedBox(height: 5,),
+
+                      Text("Home",style: navigationController.navigationIndex == 0? textStyle2Topaze:  textStyle2,)
+
+
+                    ],
                   ),
-
-                  const SizedBox(height: 5,),
-
-                  Text("Home",style: navigationController.navigationIndex == 0? textStyle2Topaze:  textStyle2,)
+                ),
 
 
-                ],
-              ),
-            ),
+                //Category option
+                InkWell(
+                  onTap: (){
+                    navigationController.categoryNavigationIndex();
+                    setState(() {});
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/icons/menu_ic.png",
+                        width: 24,
+                        height: 24,
+                        color: navigationController.navigationIndex == 1? customTopaze:customGrey,
+                      ),
+
+                      const SizedBox(height: 5,),
+
+                      Text("Category",style: navigationController.navigationIndex == 1? textStyle2Topaze:  textStyle2,)
 
 
-            //Category option
-            InkWell(
-              onTap: (){
-                navigationController.categoryNavigationIndex();
-                setState(() {});
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/icons/menu_ic.png",
-                    width: 24,
-                    height: 24,
-                    color: navigationController.navigationIndex == 1? customTopaze:customGrey,
+
+                    ],
                   ),
-
-                  const SizedBox(height: 5,),
-
-                  Text("Category",style: navigationController.navigationIndex == 1? textStyle2Topaze:  textStyle2,)
+                ),
 
 
+                //Cart Option
+                InkWell(
+                  onTap: (){
+                    navigationController.cartNavigationIndex();
+                    setState(() {});
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/icons/cart_ic.png",
+                        width: 24,
+                        height: 24,
+                        color: navigationController.navigationIndex == 2? customTopaze:customGrey,
+                      ),
 
-                ],
-              ),
-            ),
+                      const SizedBox(height: 5,),
+
+                      Text("Cart",style: navigationController.navigationIndex == 2? textStyle2Topaze:  textStyle2,)
 
 
-            //Cart Option
-            InkWell(
-              onTap: (){
-                navigationController.cartNavigationIndex();
-                setState(() {});
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/icons/cart_ic.png",
-                    width: 24,
-                    height: 24,
-                    color: navigationController.navigationIndex == 2? customTopaze:customGrey,
+
+                    ],
                   ),
+                ),
 
-                  const SizedBox(height: 5,),
+                //Wish option
+                InkWell(
+                  onTap: (){
+                    navigationController.wishNavigationIndex();
+                    setState(() {});
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        "assets/icons/wish_ic.png",
+                        width: 24,
+                        height: 24,
+                        color: navigationController.navigationIndex == 3? customTopaze:customGrey,
+                      ),
 
-                  Text("Cart",style: navigationController.navigationIndex == 2? textStyle2Topaze:  textStyle2,)
+                      const SizedBox(height: 5,),
+
+                      Text("Wish",style: navigationController.navigationIndex == 3? textStyle2Topaze:  textStyle2,)
 
 
 
-                ],
-              ),
-            ),
-
-            //Wish option
-            InkWell(
-              onTap: (){
-                navigationController.wishNavigationIndex();
-                setState(() {});
-              },
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Image.asset(
-                    "assets/icons/wish_ic.png",
-                    width: 24,
-                    height: 24,
-                    color: navigationController.navigationIndex == 3? customTopaze:customGrey,
+                    ],
                   ),
-
-                  const SizedBox(height: 5,),
-
-                  Text("Wish",style: navigationController.navigationIndex == 3? textStyle2Topaze:  textStyle2,)
-
-
-
-                ],
-              ),
-            ),
-          ],
-        ),
+                ),
+              ],
+            );
+          },
+        )
       ),
     );
   }

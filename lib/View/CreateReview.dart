@@ -25,7 +25,7 @@ class _CreateReviewState extends State<CreateReview> {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                BackBar(backName: "Create Review",),
+                BackBar(backName: "Create Review", onPressed: () {  },),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30,vertical: 50),
                   child: Column(

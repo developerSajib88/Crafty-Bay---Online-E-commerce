@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:crafty_bay/Controller/CategoryController/CategoryController.dart';
 import 'package:crafty_bay/Controller/NavigationController.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
@@ -27,6 +28,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   NavigationController controller = Get.put(NavigationController());
+  CategoryController categoryController = Get.put(CategoryController());
 
   @override
   Widget build(BuildContext context) {

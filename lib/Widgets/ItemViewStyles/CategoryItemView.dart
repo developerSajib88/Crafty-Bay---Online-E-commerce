@@ -4,8 +4,17 @@ import '../../Styles/Colors.dart';
 import '../../Styles/FontStyles.dart';
 
 class CategoryItemView extends StatefulWidget {
-  const CategoryItemView({
+
+  int id;
+  String imagLink;
+  String cateGoryName;
+
+
+   CategoryItemView({
     super.key,
+     required this.id,
+     required this.imagLink,
+     required this.cateGoryName,
   });
 
   @override
@@ -25,8 +34,8 @@ class _CategoryItemViewState extends State<CategoryItemView> {
             borderRadius: BorderRadius.circular(12.0),
           ),
           child: Center(
-              child: Image.asset(
-            "assets/icons/furniture_ic.png",
+              child: Image.network(
+            widget.imagLink,
             width: 40,
             height: 40,
           )),
@@ -40,7 +49,7 @@ class _CategoryItemViewState extends State<CategoryItemView> {
 
 
         Text(
-          "Furniture",
+          widget.cateGoryName,
           style: categoryTextStyles,
         ),
       ],
