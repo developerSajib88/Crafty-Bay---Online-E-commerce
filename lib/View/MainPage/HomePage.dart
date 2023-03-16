@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crafty_bay/Controller/CategoryController/CategoryController.dart';
 import 'package:crafty_bay/Controller/NavigationController.dart';
+import 'package:crafty_bay/Controller/ProductController/PopularProductController.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:crafty_bay/View/MainPage/CategoryPage.dart';

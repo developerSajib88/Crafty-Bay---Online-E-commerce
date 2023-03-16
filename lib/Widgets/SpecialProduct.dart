@@ -1,4 +1,6 @@
+import 'package:crafty_bay/Controller/ProductController/SpecialProductController.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import 'ItemViewStyles/MainItemView.dart';
 
@@ -10,21 +12,34 @@ class SpecialProduct extends StatefulWidget {
 }
 
 class _SpecialProductState extends State<SpecialProduct> {
+
+  SpecialProductController specialProductController = Get.put(SpecialProductController());
+
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: 175,
-      child: ListView.builder(
-          itemCount: 10,
-          scrollDirection: Axis.horizontal,
-          padding: EdgeInsets.zero,
-          itemBuilder: (context,index){
-            return const Padding(
-              padding:  EdgeInsets.all(8.0),
-              child: MainItemView(),
-            );
-          }
-      ),
+    return GetBuilder<SpecialProductController>(
+      builder: (context) {
+        return SizedBox(
+          height: 175,
+          child: ListView.builder(
+              itemCount: specialProductController.specialProductList?.data.length ?? 0,
+              scrollDirection: Axis.horizontal,
+              padding: EdgeInsets.zero,
+              itemBuilder: (context,index){
+                return Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: MainItemView(
+                      productId: specialProductController.specialProductList?.data[index].id ?? 0,
+                      productImg: specialProductController.specialProductList?.data[index].image??"",
+                      productTitle: specialProductController.specialProductList?.data[index].title??"",
+                      productPrice: specialProductController.specialProductList?.data[index].price??"",
+                      productRatings: specialProductController.specialProductList?.data[index].star??"",
+                  ),
+                );
+              }
+          ),
+        );
+      }
     );
   }
 }

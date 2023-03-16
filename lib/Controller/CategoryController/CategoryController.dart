@@ -13,7 +13,6 @@ class CategoryController extends GetxController{
     http.Response response = await http.get(Uri.parse("${ApiResource().requestUri}/CategoryList"));
     Map<String,dynamic> checkData = jsonDecode(response.body);
     if(response.statusCode == 200 && checkData["msg"]=="success"){
-      print(checkData);
       return categoryListFromJson(response.body);
     }
   }

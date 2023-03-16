@@ -5,7 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MainItemView extends StatefulWidget {
-  const MainItemView({Key? key}) : super(key: key);
+
+  int productId;
+  String productImg;
+  var productTitle;
+  String productPrice;
+  dynamic productRatings;
+
+   MainItemView({
+     Key? key,
+     required this.productId,
+     required this.productImg,
+     required this.productTitle,
+     required this.productPrice,
+     required this.productRatings,
+   }) : super(key: key);
 
   @override
   State<MainItemView> createState() => _MainItemViewState();
@@ -40,7 +54,7 @@ class _MainItemViewState extends State<MainItemView> {
               height: 100,
               color: transparentTopaze,
               child: Center(
-                child: Image.asset("assets/images/product_img.png",width: 90,height: 70,),
+                child: Image.network(widget.productImg,width: 90,height: 70,),
               ),
             ),
 
@@ -50,17 +64,17 @@ class _MainItemViewState extends State<MainItemView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("New Year Special Shoe 30",style: textStyle1,maxLines: 2,overflow: TextOverflow.ellipsis,),
+                    Text(widget.productTitle.toString(),style: textStyle1,maxLines: 2,overflow: TextOverflow.ellipsis,),
                     const SizedBox(height: 3,),
                     Row(
                       children: [
-                        Text("\$100",style: priceTextStyles,),
+                        Text("\$${widget.productPrice}",style: priceTextStyles,),
                         const SizedBox(width: 10,),
 
                         Row(
                           children: [
                             Icon(Icons.star_rate_rounded,color: goldColor,size: 15,),
-                            Text("4.5",style: textStyle1,),
+                            Text(widget.productRatings.toString(),style: textStyle1,),
                           ],
                         ),
 

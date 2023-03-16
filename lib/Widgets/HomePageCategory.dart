@@ -1,5 +1,6 @@
 
 import 'package:crafty_bay/Controller/CategoryController/CategoryController.dart';
+import 'package:crafty_bay/Controller/ProductController/PopularProductController.dart';
 import 'package:crafty_bay/Widgets/ItemViewStyles/CategoryItemView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,21 +18,29 @@ class _HomePageCategoryState extends State<HomePageCategory> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 90,
-      child: ListView.builder(
-        itemCount: categoryController.categoryList?.data.length??0,
-          scrollDirection: Axis.horizontal,
-          itemBuilder: (context,index){
-            return Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.0),
-              child: CategoryItemView(
-                id: categoryController.categoryList?.data[index].id ?? 0,
-                imagLink: categoryController.categoryList?.data[index].categoryImg??"",
-                cateGoryName: categoryController.categoryList?.data[index].categoryName??"",
-              ),
+    return GetBuilder<CategoryController>(
+      builder: (context) {
+        return GetBuilder<PopularProductController>(
+          builder: (context) {
+            return Container(
+              height: 90,
+              child: ListView.builder(
+                itemCount: categoryController.categoryList?.data.length??0,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context,index){
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 5.0),
+                      child: CategoryItemView(
+                        id: categoryController.categoryList?.data[index].id ?? 0,
+                        imagLink: categoryController.categoryList?.data[index].categoryImg??"",
+                        cateGoryName: categoryController.categoryList?.data[index].categoryName??"",
+                      ),
+                    );
+                  }),
             );
-          }),
+          }
+        );
+      }
     );
   }
 }

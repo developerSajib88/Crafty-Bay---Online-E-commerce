@@ -1,5 +1,8 @@
 import 'package:crafty_bay/Controller/CategoryController/CategoryController.dart';
 import 'package:crafty_bay/Controller/NavigationController.dart';
+import 'package:crafty_bay/Controller/ProductController/NewProductListController.dart';
+import 'package:crafty_bay/Controller/ProductController/PopularProductController.dart';
+import 'package:crafty_bay/Controller/ProductController/SpecialProductController.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:crafty_bay/View/MainPage/CartPage.dart';
@@ -19,6 +22,9 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
 
   CategoryController categoryController = Get.put(CategoryController());
+  PopularProductController popularProductController = Get.put(PopularProductController());
+  SpecialProductController specialProductController = Get.put(SpecialProductController());
+  NewProductListController newProductListController = Get.put(NewProductListController());
   NavigationController navigationController = Get.put(NavigationController());
   List myPage = [const HomePage(),const CategoryPage(),const CartPage(),const WishPage()];
 
@@ -29,6 +35,9 @@ class _BottomNavigationState extends State<BottomNavigation> {
 
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       categoryController.setCategoryList();
+      popularProductController.setPopularProduct();
+      specialProductController.setSpecialProduct();
+      newProductListController.setNewProductList();
     });
   }
 
