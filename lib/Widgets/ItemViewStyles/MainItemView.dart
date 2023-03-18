@@ -30,7 +30,7 @@ class _MainItemViewState extends State<MainItemView> {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: (){
-        Get.to(const ProductView(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+        Get.to(ProductView(prouductId: widget.productId,),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
       },
       child: Container(
         width: 115,

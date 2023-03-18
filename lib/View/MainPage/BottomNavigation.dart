@@ -3,6 +3,7 @@ import 'package:crafty_bay/Controller/NavigationController.dart';
 import 'package:crafty_bay/Controller/ProductController/NewProductListController.dart';
 import 'package:crafty_bay/Controller/ProductController/PopularProductController.dart';
 import 'package:crafty_bay/Controller/ProductController/SpecialProductController.dart';
+import 'package:crafty_bay/Controller/SliderImageListController.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:crafty_bay/View/MainPage/CartPage.dart';
@@ -25,6 +26,7 @@ class _BottomNavigationState extends State<BottomNavigation> {
   PopularProductController popularProductController = Get.put(PopularProductController());
   SpecialProductController specialProductController = Get.put(SpecialProductController());
   NewProductListController newProductListController = Get.put(NewProductListController());
+  SliderImageListController sliderImageListController = Get.put(SliderImageListController());
   NavigationController navigationController = Get.put(NavigationController());
   List myPage = [const HomePage(),const CategoryPage(),const CartPage(),const WishPage()];
 
@@ -38,6 +40,8 @@ class _BottomNavigationState extends State<BottomNavigation> {
       popularProductController.setPopularProduct();
       specialProductController.setSpecialProduct();
       newProductListController.setNewProductList();
+      sliderImageListController.setSliderImageList();
+
     });
   }
 
