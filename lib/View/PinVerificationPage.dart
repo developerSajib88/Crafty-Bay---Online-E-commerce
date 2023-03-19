@@ -127,6 +127,7 @@ class _PinVerificationPageState extends State<PinVerificationPage> {
                     }
                   }
                 },
+
                 child: Visibility(
                   visible: Loading == false,
                     replacement:const SizedBox(width: 20, height: 20,child: CircularProgressIndicator(color: Colors.white,)),

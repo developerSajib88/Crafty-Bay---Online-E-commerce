@@ -7,6 +7,7 @@ import 'package:http/http.dart'as http;
 
 class UserController extends GetxController{
 
+  String UserToken = "";
 
   //User Email Verification
   Future<bool> userEmailVerify(String getEmail)async{
@@ -33,6 +34,33 @@ class UserController extends GetxController{
       return false;
     }
   }
+  
+  
+  //Create Profile
+ Future<bool> CreateProfile()async{
+    http.Response response = await http.post(Uri.parse("${
+        ApiResource().requestUri}/CreateProfile"),
+        body: jsonEncode({
+          "firstName":"Rabbil",
+          "lastName":"Hasan",
+          "mobile":"01785388919",
+          "city":"Dhaka",
+          "shippingAddress":"Shekhertek 8,Mohammadpur, Adabor, Dhaka-1207"
+        }),
+        headers: ApiResource().getRequestHeader(UserToken),
+    );
+
+    Map<String,Map> getMap = jsonDecode(response.body);
+
+    if(response.statusCode == 200 && getMap["msg"] == "success"){
+      Get.snackbar("Successfull", "Your account is updated!");
+      return true;
+    }else{
+      Get.snackbar("Failed", "Try again!");
+      return false;
+    }
+
+ }
 
   
 }
