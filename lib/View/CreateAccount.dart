@@ -95,7 +95,7 @@ class _CreateAccountState extends State<CreateAccount> {
                   margin: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
                   child: ElevatedButton(
                     onPressed: (){
-                      Get.to(const PinVerificationPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                      //Get.to(const PinVerificationPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
                     },
                     child: Text("Complete",style: buttonTextStyles,),
                     style: customButtonStyle,

@@ -4,6 +4,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crafty_bay/Controller/SliderImageListController.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
+import 'package:crafty_bay/View/MainPage/ProductView.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
@@ -55,24 +56,29 @@ class _CaroselSliderState extends State<CaroselSlider> {
               children: [
               Text(sliderImageListController.sliderImageList?.data[i].title??"",style: GoogleFonts.poppins(fontWeight: FontWeight.w700,color: Colors.white,fontSize: 17),),
               const SizedBox(height: 10,),
-              Container(
-              width: 95,
-              height: 30,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-              color: const Color(0xffffffff),
-              borderRadius: BorderRadius.circular(6.0),
-              ),
-              child: const Text(
-              'Buy Now',
-              style: TextStyle(
-              fontFamily: 'Poppins',
-              fontSize: 9,
-              color: const Color(0xff07aeaf),
-              ),
-              textAlign: TextAlign.center,
-              softWrap: false,
-              ),
+              InkWell(
+                onTap: (){
+                  Get.to(ProductView(prouductId: sliderImageListController.sliderImageList?.data[i].id??0),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                },
+                child: Container(
+                width: 95,
+                height: 30,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                color: const Color(0xffffffff),
+                borderRadius: BorderRadius.circular(6.0),
+                ),
+                child: const Text(
+                'Buy Now',
+                style: TextStyle(
+                fontFamily: 'Poppins',
+                fontSize: 9,
+                color: const Color(0xff07aeaf),
+                ),
+                textAlign: TextAlign.center,
+                softWrap: false,
+                ),
+                ),
               )
               ],
               ),

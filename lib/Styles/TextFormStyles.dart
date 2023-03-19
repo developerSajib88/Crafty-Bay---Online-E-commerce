@@ -22,7 +22,16 @@ InputDecoration customInputDecoration(String hintText){
             color: customTopaze,
             width: 2
         ),
-
       ),
+
+
+     border: OutlineInputBorder(
+       borderRadius: BorderRadius.circular(4.0),
+       borderSide: BorderSide(
+          color: customTopaze,
+          width: 2
+       ),
+    ),
+
   );
 }

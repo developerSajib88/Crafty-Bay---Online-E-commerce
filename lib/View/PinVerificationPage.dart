@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:math';
 
+import 'package:crafty_bay/Controller/UserController.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
+import 'package:crafty_bay/View/CreateAccount.dart';
 import 'package:crafty_bay/View/MailPage.dart';
 import 'package:crafty_bay/Widgets/CustomStatusBar.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +14,8 @@ import '../Styles/ButtonStyles.dart';
 import '../Styles/FontStyles.dart';
 
 class PinVerificationPage extends StatefulWidget {
-  const PinVerificationPage({Key? key}) : super(key: key);
+  String getEmail;
+  PinVerificationPage({Key? key,required this.getEmail}) : super(key: key);
 
   @override
   State<PinVerificationPage> createState() => _PinVerificationPageState();
@@ -19,8 +23,32 @@ class PinVerificationPage extends StatefulWidget {
 
 class _PinVerificationPageState extends State<PinVerificationPage> {
 
+  ValueNotifier<int> pinTime = ValueNotifier(120);
+  bool Loading = false;
+
+  UserController userController = Get.put(UserController());
+
   final TextEditingController pinController = TextEditingController();
   StreamController<ErrorAnimationType> errorController = StreamController<ErrorAnimationType>();
+
+
+  Future timeCountDown()async{
+    Timer getTime = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if(pinTime.value == 0){
+        timer.cancel();
+      }else{
+        pinTime.value--;
+      }
+    });
+  }
+
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    timeCountDown();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,12 +93,6 @@ class _PinVerificationPageState extends State<PinVerificationPage> {
                 onCompleted: (v) {
                   print("Completed");
                 },
-                onChanged: (value) {
-                  print(value);
-                  setState(() {
-                   // currentText = value;
-                  });
-                },
                 beforeTextPaste: (text) {
                   print("Allowing to paste $text");
                   //if you return true then it will show the paste confirmation dialog. Otherwise if false, then nothing will happen.
@@ -78,6 +100,7 @@ class _PinVerificationPageState extends State<PinVerificationPage> {
                   return true;
                 },
                 appContext: context,
+                onChanged: (String value) {  },
               ),
             ),
 
@@ -87,10 +110,27 @@ class _PinVerificationPageState extends State<PinVerificationPage> {
               height: 40,
               margin: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
               child: ElevatedButton(
-                onPressed: (){
-                  Get.to(const MailPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                onPressed: ()async{
+                  if(pinController.text.length == 4 && pinTime.value > 0) {
+
+                    Loading = true;
+                    setState(() {});
+
+                    bool getResponse = await userController.pinVerification(widget.getEmail, pinController.text);
+                    if(getResponse == true){
+                      Get.to(const CreateAccount(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                      Loading = false;
+                      setState(() {});
+                    }else{
+                      Loading = false;
+                      setState(() {});
+                    }
+                  }
                 },
-                child: Text("Next",style: buttonTextStyles,),
+                child: Visibility(
+                  visible: Loading == false,
+                    replacement:const SizedBox(width: 20, height: 20,child: CircularProgressIndicator(color: Colors.white,)),
+                    child: Text("Next",style: buttonTextStyles,)),
                 style: customButtonStyle,
               ),
             ),
@@ -99,17 +139,27 @@ class _PinVerificationPageState extends State<PinVerificationPage> {
             const SizedBox(height: 10,),
             
             
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text("This code will expire in",style: subtitleAndFormTextStyles,),
-                const SizedBox(width: 5,),
-                Text("120s",style: categoryTextStyles,),
-              ],
+            ValueListenableBuilder(
+                valueListenable: pinTime,
+                builder: (context,index,_){
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("This code will expire in",style: subtitleAndFormTextStyles,),
+                      const SizedBox(width: 5,),
+                      Text("${pinTime.value.toString()}s",style: categoryTextStyles,),
+                    ],
+                  );
+                }
             ),
 
             TextButton(
-                onPressed: (){},
+                onPressed: (){
+                  pinController.clear();
+                  pinTime.value = 120;
+                  timeCountDown();
+                  userController.userEmailVerify(widget.getEmail);
+                },
                 child: Text("Resend Code",style: categoryTextStyles,),
 
             )

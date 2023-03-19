@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:crafty_bay/Styles/Colors.dart';
+import 'package:crafty_bay/View/MainPage/BottomNavigation.dart';
 import 'package:flutter/material.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:get/get.dart';
@@ -22,7 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     Timer(const Duration(seconds: 4), () {
-      Get.off(const HomePage(),transition: Transition.cupertino,duration: const Duration(seconds: 1));
+      Get.off(const BottomNavigation(),transition: Transition.cupertino,duration: const Duration(seconds: 1));
     }
     );
 

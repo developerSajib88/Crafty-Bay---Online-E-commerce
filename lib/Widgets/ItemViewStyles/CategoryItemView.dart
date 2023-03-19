@@ -1,4 +1,6 @@
+import 'package:crafty_bay/View/MainPage/ListProductByCategoryPage.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../Styles/Colors.dart';
 import '../../Styles/FontStyles.dart';
@@ -24,35 +26,46 @@ class CategoryItemView extends StatefulWidget {
 class _CategoryItemViewState extends State<CategoryItemView> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: 66,
-          height: 66,
-          decoration: BoxDecoration(
-            color: transparentTopaze,
-            borderRadius: BorderRadius.circular(12.0),
+    return InkWell(
+      onTap: (){
+        Get.to(
+            ListProductByCategory(
+              categoryId: widget.id,
+              categoryName: widget.cateGoryName,
+            ),
+            transition: Transition.cupertino,
+            duration: const Duration(milliseconds:500));
+      },
+      child: Column(
+        children: [
+          Container(
+            width: 66,
+            height: 66,
+            decoration: BoxDecoration(
+              color: transparentTopaze,
+              borderRadius: BorderRadius.circular(12.0),
+            ),
+            child: Center(
+                child: Image.network(
+              widget.imagLink,
+              width: 40,
+              height: 40,
+            )),
           ),
-          child: Center(
-              child: Image.network(
-            widget.imagLink,
-            width: 40,
-            height: 40,
-          )),
-        ),
 
 
 
-        const SizedBox(
-          height: 5,
-        ),
+          const SizedBox(
+            height: 5,
+          ),
 
 
-        Text(
-          widget.cateGoryName,
-          style: categoryTextStyles,
-        ),
-      ],
+          Text(
+            widget.cateGoryName,
+            style: categoryTextStyles,
+          ),
+        ],
+      ),
     );
   }
 }

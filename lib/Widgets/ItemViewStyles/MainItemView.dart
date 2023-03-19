@@ -1,5 +1,6 @@
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
+import 'package:crafty_bay/View/MailPage.dart';
 import 'package:crafty_bay/View/MainPage/ProductView.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -80,14 +81,19 @@ class _MainItemViewState extends State<MainItemView> {
 
                         const SizedBox(width: 10,),
 
-                        Container(
-                          width: 15,
-                          height: 15,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(3),
-                              color: customTopaze
+                        InkWell(
+                          onTap: (){
+                            Get.to(const MailPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                          },
+                          child: Container(
+                            width: 15,
+                            height: 15,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(3),
+                                color: customTopaze
+                            ),
+                            child: Icon(Icons.favorite_border,color: Colors.white,size: 10,),
                           ),
-                          child: Icon(Icons.favorite_border,color: Colors.white,size: 10,),
                         )
                       ],
                     )
