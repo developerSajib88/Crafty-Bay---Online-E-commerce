@@ -1,3 +1,6 @@
+import 'package:crafty_bay/Controller/NavigationController.dart';
+import 'package:crafty_bay/Controller/UserController.dart';
+import 'package:crafty_bay/Controller/WishListController/CreateWishList.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:crafty_bay/View/MailPage.dart';
@@ -27,6 +30,11 @@ class MainItemView extends StatefulWidget {
 }
 
 class _MainItemViewState extends State<MainItemView> {
+
+  UserController userController = Get.put(UserController());
+  CreateWishListController createWishListController = Get.put(CreateWishListController());
+  NavigationController navigationController = Get.put(NavigationController());
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -83,7 +91,11 @@ class _MainItemViewState extends State<MainItemView> {
 
                         InkWell(
                           onTap: (){
-                            Get.to(const MailPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                            if(userController.userProfileComplete == true){
+                              createWishListController.createWishList(widget.productId);
+                            }else if(userController.userProfileComplete == false){
+                              Get.to(const MailPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                            }
                           },
                           child: Container(
                             width: 15,

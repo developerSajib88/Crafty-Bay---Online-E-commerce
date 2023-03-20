@@ -4,8 +4,11 @@ import 'package:crafty_bay/Controller/ProductController/NewProductListController
 import 'package:crafty_bay/Controller/ProductController/PopularProductController.dart';
 import 'package:crafty_bay/Controller/ProductController/SpecialProductController.dart';
 import 'package:crafty_bay/Controller/SliderImageListController.dart';
+import 'package:crafty_bay/Controller/UserController.dart';
+import 'package:crafty_bay/Controller/WishListController/UserWishListController.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
+import 'package:crafty_bay/View/MailPage.dart';
 import 'package:crafty_bay/View/MainPage/CartPage.dart';
 import 'package:crafty_bay/View/MainPage/CategoryPage.dart';
 import 'package:crafty_bay/View/MainPage/HomePage.dart';
@@ -23,10 +26,13 @@ class BottomNavigation extends StatefulWidget {
 class _BottomNavigationState extends State<BottomNavigation> {
 
   CategoryController categoryController = Get.put(CategoryController());
+  UserController userController = Get.put(UserController());
   PopularProductController popularProductController = Get.put(PopularProductController());
   SpecialProductController specialProductController = Get.put(SpecialProductController());
   NewProductListController newProductListController = Get.put(NewProductListController());
   SliderImageListController sliderImageListController = Get.put(SliderImageListController());
+  UserWishListController userWishListController = Get.put(UserWishListController());
+
   NavigationController navigationController = Get.put(NavigationController());
   List myPage = [const HomePage(),const CategoryPage(),const CartPage(),const WishPage()];
 
@@ -35,12 +41,15 @@ class _BottomNavigationState extends State<BottomNavigation> {
     // TODO: implement initState
     super.initState();
 
+    userController.getUserData();
+
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       categoryController.setCategoryList();
       popularProductController.setPopularProduct();
       specialProductController.setSpecialProduct();
       newProductListController.setNewProductList();
       sliderImageListController.setSliderImageList();
+      userWishListController.setUserWishList();
 
     });
   }
@@ -135,7 +144,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 //Cart Option
                 InkWell(
                   onTap: (){
-                    navigationController.cartNavigationIndex();
+                    if(userController.userProfileComplete == true){
+                      navigationController.cartNavigationIndex();
+                    }else{
+                      Get.to(const MailPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500),);
+                    }
                     setState(() {});
                   },
                   child: Column(
@@ -162,7 +175,11 @@ class _BottomNavigationState extends State<BottomNavigation> {
                 //Wish option
                 InkWell(
                   onTap: (){
-                    navigationController.wishNavigationIndex();
+                    if(userController.userProfileComplete == true){
+                      navigationController.wishNavigationIndex();
+                    }else{
+                      Get.to(const MailPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500),);
+                    }
                     setState(() {});
                   },
                   child: Column(

@@ -3,7 +3,22 @@ import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:flutter/material.dart';
 
 class WishItemView extends StatefulWidget {
-  const WishItemView({Key? key}) : super(key: key);
+
+  int wishId;
+  int wishProductId;
+  String wishProductImg;
+  String wishProductTitle;
+  String wishProductPrice;
+  double wishProductRating;
+  WishItemView({
+    Key? key,
+    required this.wishId,
+    required this.wishProductId,
+    required this.wishProductImg,
+    required this.wishProductTitle,
+    required this.wishProductPrice,
+    required this.wishProductRating,
+  }) : super(key: key);
 
   @override
   State<WishItemView> createState() => _WishItemViewState();
@@ -34,7 +49,7 @@ class _WishItemViewState extends State<WishItemView> {
             height: 100,
             color: transparentTopaze,
             child: Center(
-              child: Image.asset("assets/images/product_img.png",width: 90,height: 70,),
+              child: Image.network(widget.wishProductImg,width: 90,height: 70,),
             ),
           ),
 
@@ -43,7 +58,7 @@ class _WishItemViewState extends State<WishItemView> {
               padding: EdgeInsets.all(5),
               child: Column(
                 children: [
-                  Text("New Year Special Shoe 30",style: textStyle1,),
+                  Text(widget.wishProductTitle,style: textStyle1,),
                   const SizedBox(height: 3,),
                   Row(
                     children: [
@@ -53,7 +68,7 @@ class _WishItemViewState extends State<WishItemView> {
                       Row(
                         children: [
                           Icon(Icons.star_rate_rounded,color: goldColor,size: 15,),
-                          Text("4.5",style: textStyle1,),
+                          Text(widget.wishProductRating.toString(),style: textStyle1,),
                         ],
                       ),
 

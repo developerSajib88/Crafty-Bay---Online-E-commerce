@@ -2,8 +2,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:crafty_bay/Controller/ProductController/ProductDetailsController.dart';
 import 'package:crafty_bay/Controller/ProductController/SpecialProductController.dart';
+import 'package:crafty_bay/Controller/UserController.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
+import 'package:crafty_bay/View/MailPage.dart';
+import 'package:crafty_bay/View/ReviewPage.dart';
 import 'package:crafty_bay/Widgets/BackBar.dart';
 import 'package:crafty_bay/Widgets/CustomStatusBar.dart';
 import 'package:flutter/material.dart';
@@ -27,6 +30,7 @@ class _ProductViewState extends State<ProductView> {
   ValueNotifier<int> productSizeBgColor = ValueNotifier(0);
 
   ProductDetailsController productDetailsController = Get.put(ProductDetailsController());
+  UserController userController = Get.put(UserController());
 
   @override
   void initState() {
@@ -65,6 +69,7 @@ class _ProductViewState extends State<ProductView> {
                             Stack(
                               alignment: Alignment.center,
                               children: [
+
                                 Visibility(
                                   visible: productDetailsController.productDetails?.data.length != null,
                                   replacement: Container(width: double.infinity,height: 250,child: Center(child: CircularProgressIndicator(color: customTopaze,)),),
@@ -203,7 +208,19 @@ class _ProductViewState extends State<ProductView> {
                                 const SizedBox(width: 3,),
                                 Text("${productDetailsController.productDetails?.data[0].product.star??0.0}".toString(),style: textStyle6,),
                                 const SizedBox(width: 15,),
-                                Text("Reviews",style: categoryTextStyles,),
+                                TextButton(
+                                    onPressed: (){
+
+                                      if(userController.userProfileComplete == true){
+                                        Get.to(const ReviewPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                                      }else if(userController.userProfileComplete == false){
+                                        Get.to(const MailPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                                      }
+
+
+                                     },
+                                    child: Text("Reviews",style: categoryTextStyles,)
+                                ),
                                 const SizedBox(width: 15,),
                                 Container(
                                   width: 22,
@@ -278,10 +295,10 @@ class _ProductViewState extends State<ProductView> {
                                 child: ValueListenableBuilder(
                                   valueListenable: productSizeBgColor,
                                   builder: (BuildContext context, value, Widget? child) {
-                                    
+
                                     String getSize = productDetailsController.productDetails?.data[0].size??"";
                                     List<String> productSize = getSize.split(",");
-                                    
+
                                     return ListView.builder(
                                         itemCount: productSize.length,
                                         scrollDirection: Axis.horizontal,

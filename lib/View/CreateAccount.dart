@@ -1,9 +1,9 @@
+import 'package:crafty_bay/Controller/UserController.dart';
 import 'package:crafty_bay/Styles/ButtonStyles.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:crafty_bay/Styles/TextFormStyles.dart';
-import 'package:crafty_bay/View/MainPage/HomePage.dart';
-import 'package:crafty_bay/View/PinVerificationPage.dart';
+import 'package:crafty_bay/View/MainPage/BottomNavigation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -18,12 +18,16 @@ class CreateAccount extends StatefulWidget {
 
 class _CreateAccountState extends State<CreateAccount> {
 
+  bool Loading = false;
+
   final GlobalKey<FormState> formkey = GlobalKey<FormState>();
   final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController cityController = TextEditingController();
   final TextEditingController shippingAddressController = TextEditingController();
+
+  final UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -125,13 +129,35 @@ class _CreateAccountState extends State<CreateAccount> {
                     height: 40,
                     margin: const EdgeInsets.symmetric(horizontal: 30,vertical: 10),
                     child: ElevatedButton(
-                      onPressed: (){
+                      onPressed: ()async{
 
                         if(formkey.currentState!.validate()){
-                          Get.to(const HomePage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                          Loading = true;
+                          setState(() {});
+
+                          bool getResponse = await userController.CreateProfile(
+                            firstNameController.text,
+                            lastNameController.text,
+                            mobileController.text,
+                            cityController.text,
+                            shippingAddressController.text
+                          );
+
+                          if(getResponse == true){
+                            Get.to(const BottomNavigation(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                            Loading = false;
+                            setState(() {});
+                          }else{
+                            Loading = false;
+                            setState(() {});
+                          }
+
                         }
                       },
-                      child: Text("Complete",style: buttonTextStyles,),
+                      child: Visibility(
+                          visible: Loading == false,
+                          replacement: SizedBox(width: 20,height: 20,child: CircularProgressIndicator(color: Colors.white,),),
+                          child: Text("Complete",style: buttonTextStyles,)),
                       style: customButtonStyle,
                     ),
                   )
