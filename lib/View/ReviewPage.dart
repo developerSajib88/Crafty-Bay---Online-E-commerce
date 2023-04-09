@@ -1,4 +1,5 @@
-import 'package:crafty_bay/Controller/NavigationController.dart';
+import 'package:crafty_bay/Controller/ProductController/ReviewsListByProductController.dart';
+import 'package:crafty_bay/Controller/UserController.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:crafty_bay/View/CreateReview.dart';
@@ -10,13 +11,30 @@ import 'package:get/get.dart';
 import '../Widgets/BackBar.dart';
 
 class ReviewPage extends StatefulWidget {
-  const ReviewPage({Key? key}) : super(key: key);
+   int productId;
+   ReviewPage({
+    Key? key,
+     required this.productId
+   }) : super(key: key);
 
   @override
   State<ReviewPage> createState() => _ReviewPageState();
 }
 
 class _ReviewPageState extends State<ReviewPage> {
+
+  ReviewByProductController reviewByProductController = Get.put(ReviewByProductController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    UserController().getUserData();
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      reviewByProductController.setReviewData(widget.productId);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,17 +44,31 @@ class _ReviewPageState extends State<ReviewPage> {
           height: double.infinity,
           child: Column(
             children: [
-              BackBar(backName: "Reviews", onPressed: (){
-              },),
+              BackBar(backName: "Reviews", onPressed: ()=>Get.back(),),
 
 
               Expanded(
-                  child: ListView.builder(
-                    itemCount: 10,
-                      itemBuilder: (context,index){
-                        return ReviewItemView();
-                      }
-                  )
+                  child: GetBuilder<ReviewByProductController>(
+                    builder: (context){
+                      return Visibility(
+                        visible: reviewByProductController.loading == false,
+                        replacement: Center(child: CircularProgressIndicator(color: customTopaze,),),
+                        child: Visibility(
+                          visible: reviewByProductController.getReviewsByProduct?.data.length != 0,
+                          replacement: const Center(child: Text("Empty"),),
+                          child: ListView.builder(
+                              itemCount: reviewByProductController.getReviewsByProduct?.data.length ?? 0,
+                              itemBuilder: (context,index){
+                                return ReviewItemView(
+                                  userName: "${reviewByProductController.getReviewsByProduct?.data[index].profile.firstName ?? ""} ${reviewByProductController.getReviewsByProduct?.data[index].profile.lastName ?? ""}",
+                                  userReview: reviewByProductController.getReviewsByProduct?.data[index].description ?? "",
+                                );
+                              }
+                          ),
+                        ),
+                      );
+                    },
+                  ),
               ),
 
 
@@ -58,7 +90,7 @@ class _ReviewPageState extends State<ReviewPage> {
                       height: 43,
                       child: FloatingActionButton(
                         onPressed: (){
-                          Get.to(const CreateReview(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                          Get.to(CreateReview(productId: widget.productId,),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
                         },
                         child: const Icon(Icons.add),
                         backgroundColor: customTopaze,

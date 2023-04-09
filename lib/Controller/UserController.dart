@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:crafty_bay/Controller/Api_Resource/Api_Resource.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart'as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -21,6 +20,7 @@ class UserController extends GetxController{
   Future<bool> userEmailVerify(String getEmail)async{
     http.Response response = await http.get(Uri.parse("${ApiResource().requestUri}/UserLogin/$getEmail"));
     Map<String,dynamic> getMap = jsonDecode(response.body);
+
     if(response.statusCode == 200 && getMap["msg"] == "success"){
       Get.snackbar("Success", getMap["data"],duration: const Duration(seconds: 3));
       return true;
@@ -73,7 +73,7 @@ class UserController extends GetxController{
 
     if(response.statusCode == 200 && getMap["msg"] == "success"){
       setUserData();
-      Get.snackbar("Successfull", "Your account is updated!");
+      Get.snackbar("Successful", "Your account is updated!");
       return true;
     }else{
       Get.snackbar("Failed", "Try again!");
@@ -104,6 +104,9 @@ class UserController extends GetxController{
    userCity = sharedPreferences.getString("userCity")??"";
    userShippingAddress = sharedPreferences.getString("userShippingAddress")??"";
  }
+
+
+
 
 
   

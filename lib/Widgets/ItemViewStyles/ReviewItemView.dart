@@ -3,13 +3,22 @@ import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:flutter/material.dart';
 
 class ReviewItemView extends StatefulWidget {
-  const ReviewItemView({Key? key}) : super(key: key);
+
+  String userName;
+  String userReview;
+
+  ReviewItemView({
+    Key? key,
+    required this.userName,
+    required this.userReview,
+  }) : super(key: key);
 
   @override
   State<ReviewItemView> createState() => _ReviewItemViewState();
 }
 
 class _ReviewItemViewState extends State<ReviewItemView> {
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -29,16 +38,15 @@ class _ReviewItemViewState extends State<ReviewItemView> {
 
                     const SizedBox(width: 5.0,),
 
-                    Text("Rabbil Hasan",style: textStyle6,)
+                    Text(widget.userName,style: textStyle6,)
 
                   ],
                 ),
 
                 const SizedBox(height: 5,),
 
-                Text("Reference site about Lorem Ipsum, giving information on its origins, as well"
-                      "as a random Lipsum generator Reference site about Lorem Ipsum, giving"
-                      "information on its origins, as well as a random Lipsum generator",
+                Text(
+                  widget.userReview,
                   style: textStyle2,
                 )
 

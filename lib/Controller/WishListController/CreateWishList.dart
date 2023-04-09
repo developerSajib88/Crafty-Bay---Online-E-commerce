@@ -19,7 +19,7 @@ class CreateWishListController extends GetxController{
     if(response.statusCode == 200 && getMap["msg"] == "success"){
       Get.snackbar("Success", "Added this item in your wishList");
     }else{
-      Get.snackbar("Failed", "Try again!");
+      Get.snackbar("Failed", getMap["data"]);
     }
 
   }

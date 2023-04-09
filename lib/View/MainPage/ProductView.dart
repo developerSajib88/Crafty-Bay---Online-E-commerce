@@ -1,8 +1,10 @@
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:crafty_bay/Controller/CartListController/CreateCartListController.dart';
+import 'package:crafty_bay/Controller/CartListController/TotalProductController.dart';
 import 'package:crafty_bay/Controller/ProductController/ProductDetailsController.dart';
-import 'package:crafty_bay/Controller/ProductController/SpecialProductController.dart';
 import 'package:crafty_bay/Controller/UserController.dart';
+import 'package:crafty_bay/Controller/WishListController/CreateWishList.dart';
 import 'package:crafty_bay/Styles/Colors.dart';
 import 'package:crafty_bay/Styles/FontStyles.dart';
 import 'package:crafty_bay/View/MailPage.dart';
@@ -14,6 +16,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../Styles/ButtonStyles.dart';
+import '../../Widgets/CountTotalProduct.dart';
 
 class ProductView extends StatefulWidget {
   int prouductId;
@@ -25,12 +28,20 @@ class ProductView extends StatefulWidget {
 
 class _ProductViewState extends State<ProductView> {
 
+  bool loading = false;
+
+  List<String>? productSize;
+  List<String>? productColors;
+
   ValueNotifier<int> productIndex = ValueNotifier(0);
   ValueNotifier<int> productColorSelected = ValueNotifier(0);
   ValueNotifier<int> productSizeBgColor = ValueNotifier(0);
 
   ProductDetailsController productDetailsController = Get.put(ProductDetailsController());
   UserController userController = Get.put(UserController());
+  TotalProductController totalProductController = Get.put(TotalProductController());
+  CreateCartListController createCartListController = Get.put(CreateCartListController());
+
 
   @override
   void initState() {
@@ -195,7 +206,7 @@ class _ProductViewState extends State<ProductView> {
 
                                 Expanded(
                                     flex: 1,
-                                    child: Container(),
+                                    child: CountTotalProduct()
                                 )
                               ],
                             ),
@@ -212,7 +223,7 @@ class _ProductViewState extends State<ProductView> {
                                     onPressed: (){
 
                                       if(userController.userProfileComplete == true){
-                                        Get.to(const ReviewPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
+                                        Get.to(ReviewPage(productId: widget.prouductId,),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
                                       }else if(userController.userProfileComplete == false){
                                         Get.to(const MailPage(),transition: Transition.cupertino,duration: const Duration(milliseconds: 500));
                                       }
@@ -222,14 +233,17 @@ class _ProductViewState extends State<ProductView> {
                                     child: Text("Reviews",style: categoryTextStyles,)
                                 ),
                                 const SizedBox(width: 15,),
-                                Container(
-                                  width: 22,
-                                  height: 22,
-                                  decoration: BoxDecoration(
-                                    color: customTopaze,
-                                    borderRadius: BorderRadius.circular(4),
+                                InkWell(
+                                  onTap: ()=>CreateWishListController().createWishList(widget.prouductId),
+                                  child: Container(
+                                    width: 22,
+                                    height: 22,
+                                    decoration: BoxDecoration(
+                                      color: customTopaze,
+                                      borderRadius: BorderRadius.circular(4),
+                                    ),
+                                    child: const Icon(Icons.favorite_border,color: Colors.white,size: 15,),
                                   ),
-                                  child: const Icon(Icons.favorite_border,color: Colors.white,size: 15,),
                                 )
 
 
@@ -247,9 +261,9 @@ class _ProductViewState extends State<ProductView> {
                                 valueListenable: productColorSelected,
                                 builder: (BuildContext context, value, Widget? child) {
                                   String getColor = productDetailsController.productDetails?.data[0].color??"";
-                                  List<String> productColors = getColor.split(",");
+                                  productColors = getColor.split(",");
                                   return ListView.builder(
-                                      itemCount: productColors.length,
+                                      itemCount: productColors?.length,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder: (context,index){
                                         return InkWell(
@@ -261,7 +275,7 @@ class _ProductViewState extends State<ProductView> {
                                             height: 27,
                                             margin: const EdgeInsets.only(right: 10),
                                             decoration: BoxDecoration(
-                                              color: Color(int.parse("0xff${productColors[index].replaceAll("#", "")}")),
+                                              color: Color(int.parse("0xff${productColors![index].replaceAll("#", "")}")),
                                               borderRadius: BorderRadius.circular(100),
                                             ),
 
@@ -297,10 +311,10 @@ class _ProductViewState extends State<ProductView> {
                                   builder: (BuildContext context, value, Widget? child) {
 
                                     String getSize = productDetailsController.productDetails?.data[0].size??"";
-                                    List<String> productSize = getSize.split(",");
+                                    productSize = getSize.split(",");
 
                                     return ListView.builder(
-                                        itemCount: productSize.length,
+                                        itemCount: productSize?.length,
                                         scrollDirection: Axis.horizontal,
                                         itemBuilder: (context,index){
                                           return InkWell(
@@ -320,7 +334,7 @@ class _ProductViewState extends State<ProductView> {
                                                 child: Padding(
                                                   padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                                   child: Text(
-                                                    productSize[index],
+                                                    productSize![index],
                                                     style: GoogleFonts.poppins(
                                                         textStyle: TextStyle(
                                                       color: productSizeBgColor.value ==
@@ -380,7 +394,7 @@ class _ProductViewState extends State<ProductView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text("Total Price",style: textStyle2,),
-                              Text("\$1000000",style: priceTextStyles,),
+                              Obx(() => Text("\$${totalProductController.totalProduct * int.parse(productDetailsController.productDetails!.data[0].product.price)}",style: priceTextStyles,),)
                             ],
                           ),
 
@@ -390,8 +404,29 @@ class _ProductViewState extends State<ProductView> {
                             width: 120,
                             height: 40,
                             child: ElevatedButton(
-                              onPressed: (){},
-                              child: Text("Checkout",style: buttonTextStyles,),
+                              onPressed: ()async{
+                                loading = true;
+                                setState(() {});
+                                bool getResponse = await createCartListController.createCartList(
+                                    widget.prouductId,
+                                    productColors![productColorSelected.value],
+                                    productSize![productSizeBgColor.value]
+                                );
+
+                                if(getResponse){
+                                  loading == false;
+                                  setState(() {});
+                                }else{
+                                  loading == false;
+                                  setState(() {});
+                                }
+
+
+                              },
+                              child: Visibility(
+                                visible: loading == false,
+                                replacement: SizedBox(width: 20,height: 20,child: CircularProgressIndicator(color: Colors.white,),),
+                                child: Text("Add to Cart",style: buttonTextStyles,)),
                               style: customButtonStyle,
                             ),
 

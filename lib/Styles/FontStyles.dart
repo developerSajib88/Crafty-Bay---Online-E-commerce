@@ -60,7 +60,7 @@ TextStyle descriptionTextStyles = GoogleFonts.poppins(
 
 
 // Button Text styles text style
-TextStyle buttonTextStyles = GoogleFonts.poppins(
+ TextStyle buttonTextStyles = GoogleFonts.poppins(
   color: Colors.white,
   fontSize: 12,
 );
